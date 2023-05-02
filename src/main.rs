@@ -3,11 +3,11 @@ use std::cmp::Ordering;
 use std::io;
 
 fn main() {
-    // generate a random number between 1 and up to 100.
-    let random_number: u32 = rand::thread_rng().gen_range(1..=100);
+    // generate a random number between 1 and up to 10.
+    let random_number: u32 = rand::thread_rng().gen_range(1..=10);
 
     // request a number from the user
-    println!("Guess a number.");
+    println!("Guess a number:");
 
     // loop is an infinite loop. While loops need a condition. Loop does not require any condition
     loop {
@@ -19,12 +19,13 @@ fn main() {
             .read_line(&mut guess)
             .expect("Failed to read line.");
 
-        println!("You guessed {guess}");
-
         // convert guess to an int
         let guess: u32 = match guess.trim().parse() {
             Ok(num) => num,
-            Err(_) => continue,
+            Err(_) => {
+                println!("This is not a number");
+                continue;
+            }
         };
 
         match guess.cmp(&random_number) {
@@ -36,4 +37,9 @@ fn main() {
             }
         }
     }
+
+    let mut exit = String::new();
+    // capture an input so the program doesn't just exit immediately
+    println!("Press enter to exit");
+    io::stdin().read_line(&mut exit).expect("nothing");
 }
